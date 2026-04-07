@@ -436,8 +436,8 @@ export default function App() {
     selectedProfile === "docencia"
       ? "sky"
       : selectedProfile === "administracion"
-      ? "amber"
-      : "emerald";
+        ? "amber"
+        : "emerald";
 
   return (
     <div className="text-white bg-[#07100c]">
@@ -689,11 +689,10 @@ export default function App() {
                 <button
                   key={profile.id}
                   onClick={() => setSelectedProfile(profile.id)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition ${
-                    isActive
+                  className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold transition ${isActive
                       ? profile.chip
                       : "border-[#ccd7cf] bg-[#f7faf7] text-neutral-700 hover:bg-white"
-                  }`}
+                    }`}
                 >
                   <Icon size={18} />
                   {profile.label}
@@ -743,8 +742,8 @@ export default function App() {
                           currentTone === "sky"
                             ? "text-sky-500"
                             : currentTone === "amber"
-                            ? "text-amber-500"
-                            : "text-emerald-500"
+                              ? "text-amber-500"
+                              : "text-emerald-500"
                         }
                       />
                       <span className="text-sm text-neutral-700">{item}</span>
@@ -978,55 +977,56 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="rounded-[1.75rem] border border-[#d8e1da] bg-[#fbfcfb]/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm text-neutral-700">
-                  <MapPinned size={16} />
-                  Ubicación
+              {/* =========================
+   CONTACTO / UBICACIÓN SIN IFRAME DE GOOGLE MAPS
+   Sustituye SOLO el bloque derecho donde ahora sale el mapa embebido por este bloque.
+   ========================= */}
+
+              <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm text-black/70">
+                  <span>📍</span>
+                  <span>Ubicación</span>
                 </div>
 
-                <h3 className="text-2xl font-semibold text-neutral-900">
+                <h3 className="text-3xl font-bold tracking-tight text-neutral-950">
                   Arucas · Gran Canaria
                 </h3>
 
-                <p className="mt-3 text-neutral-700">
-                  Mi identidad visual nace aquí, pero mi trabajo está pensado
-                  para cualquier proyecto, equipo o entorno donde pueda aportar
-                  valor, detalle y compromiso profesional.
+                <p className="mt-4 max-w-xl text-base leading-8 text-neutral-700">
+                  Mi identidad visual nace aquí, pero mi trabajo está pensado para cualquier
+                  proyecto, equipo o entorno donde pueda aportar valor, detalle y compromiso profesional.
                 </p>
 
-                <div className="mt-6 rounded-2xl overflow-hidden border border-[#dbe4dc] bg-white shadow-[0_8px_20px_rgba(0,0,0,0.04)]">
-                  <iframe
-                    src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_EMBED_KEY}&q=Arucas,Gran+Canaria`}
-                    width="100%"
-                    height="320"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Mapa de Arucas"
-                  />
-                  <div className="border-t border-[#dbe4dc] bg-[#f6f8f6] p-4">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <a
-                        href="https://www.google.com/maps/search/Arucas%2C+Espa%C3%B1a/?hl=es"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100"
-                      >
-                        <MapPinned size={16} />
-                        Ver en Google Maps
-                      </a>
+                <div className="mt-6 rounded-3xl border border-black/10 bg-[linear-gradient(135deg,rgba(16,185,129,0.06),rgba(234,179,8,0.05))] p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-700/90">
+                    Referencia de ubicación
+                  </p>
 
-                      <a
-                        href="https://www.google.com/maps/dir/?api=1&destination=Arucas,+Las+Palmas"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-3 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-100"
-                      >
-                        <Route size={16} />
-                        Calcular ruta
-                      </a>
-                    </div>
+                  <p className="mt-3 text-sm leading-7 text-neutral-700">
+                    Arucas, Gran Canaria, Las Palmas, España.
+                    Punto de referencia profesional para contacto y disponibilidad.
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <a
+                      href="https://www.google.com/maps/search/Arucas,+Gran+Canaria"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500 px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.01] hover:bg-emerald-600"
+                    >
+                      <span>🗺️</span>
+                      Ver en Google Maps
+                    </a>
+
+                    <a
+                      href="https://www.google.com/maps/dir/?api=1&destination=Arucas,+Gran+Canaria"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-semibold text-neutral-900 transition hover:scale-[1.01] hover:bg-neutral-50"
+                    >
+                      <span>🧭</span>
+                      Calcular ruta
+                    </a>
                   </div>
                 </div>
               </div>
