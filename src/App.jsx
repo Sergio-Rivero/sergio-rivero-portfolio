@@ -808,7 +808,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              Frontend Developer · React · Portfolio personal
+              Desarrollador Web Frontend · React 
             </motion.p>
 
             <motion.h1
