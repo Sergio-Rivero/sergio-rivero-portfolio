@@ -620,11 +620,23 @@ export default function App() {
   const [selectedProfile, setSelectedProfile] = useState("frontend");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isHeroPhotoVisible, setIsHeroPhotoVisible] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1440
+  );
   const heroPhotoRef = useRef(null);
 
   useEffect(() => {
     const accepted = localStorage.getItem("srs-cookie-consent");
     if (!accepted) setShowCookies(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const onResize = () => setViewportWidth(window.innerWidth);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
@@ -635,6 +647,10 @@ export default function App() {
       document.body.style.overflow = previousOverflow;
     };
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (viewportWidth >= 1280) setMobileMenuOpen(false);
+  }, [viewportWidth]);
 
   useEffect(() => {
     const node = heroPhotoRef.current;
@@ -697,6 +713,15 @@ export default function App() {
         ? "En docencia se prioriza la formación formativa y digital, dejando visible también la base técnica que refuerza credibilidad y versatilidad."
         : "En administración se muestra primero la formación que refuerza gestión, documentación, análisis y orden operativo, sin perder la parte tecnológica que suma valor.";
 
+  const isDesktopNav = viewportWidth >= 1280;
+  const brandLabel = isDesktopNav
+    ? "Sergio Rivero Salazar"
+    : viewportWidth < 390
+      ? ""
+      : viewportWidth < 520
+        ? "Sergio Rivero"
+        : "Sergio Rivero Salazar";
+
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
   const shouldShowFloatingAvatar = !isHeroPhotoVisible;
 
@@ -706,49 +731,44 @@ export default function App() {
     <div className="bg-[#07100c] text-white">
       <header className="fixed left-0 top-0 z-50 w-full">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
-          <div className="mt-4 flex items-center justify-between overflow-hidden rounded-full border border-white/20 bg-[linear-gradient(135deg,rgba(25,34,31,0.54),rgba(53,70,65,0.34),rgba(24,32,30,0.58))] px-3 py-2.5 shadow-[0_14px_36px_rgba(0,0,0,0.26)] backdrop-blur-[18px] supports-[backdrop-filter]:bg-[linear-gradient(135deg,rgba(30,41,38,0.48),rgba(65,84,79,0.24),rgba(26,35,32,0.5))] md:px-5 md:py-3"
-            style={{ boxShadow: "0 14px 36px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.08)" }}>
-            <a href="#inicio" className="flex min-w-0 flex-1 items-center gap-3 md:flex-none">
+          <div className="mt-4 flex items-center justify-between rounded-full border border-white/15 bg-[linear-gradient(135deg,rgba(52,66,61,0.58),rgba(36,49,45,0.42))] px-4 py-3 backdrop-blur-xl shadow-[0_10px_34px_rgba(0,0,0,0.28)] md:px-5">
+            <a href="#inicio" className="flex min-w-0 items-center gap-3">
               <img
                 src={BRAND_LOGO}
                 alt="Logo SRS"
-                className="h-10 w-10 rounded-full object-cover ring-2 ring-white/90 shadow-[0_6px_18px_rgba(0,0,0,0.14)]"
+                className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/90"
               />
-              <div className="min-w-0">
-                <span className="hidden truncate text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/92 min-[390px]:block min-[560px]:hidden">
-                  Sergio Rivero
+              {brandLabel ? (
+                <span className="min-w-0 truncate whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 sm:text-xs md:text-sm md:tracking-[0.25em]">
+                  {brandLabel}
                 </span>
-                <span className="hidden truncate text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/92 min-[560px]:block md:hidden">
-                  Sergio Rivero Salazar
-                </span>
-                <span className="hidden truncate text-xs font-semibold uppercase tracking-[0.22em] text-white/90 md:block md:text-sm md:tracking-[0.25em]">
-                  Sergio Rivero Salazar
-                </span>
-              </div>
+              ) : null}
             </a>
 
-            <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
-              {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="transition hover:text-white">
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-
-            <button
-              type="button"
-              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="inline-flex h-12 w-12 flex-none items-center justify-center rounded-full border border-white/16 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] text-white shadow-[0_10px_26px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.08))] md:hidden"
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            {isDesktopNav ? (
+              <nav className="hidden items-center gap-6 text-sm text-white/80 xl:flex">
+                {navItems.map((item) => (
+                  <a key={item.href} href={item.href} className="transition hover:text-white">
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            ) : (
+              <button
+                type="button"
+                aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={mobileMenuOpen}
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:bg-white/15"
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            )}
           </div>
         </div>
 
         <AnimatePresence>
-          {mobileMenuOpen && (
+          {mobileMenuOpen && !isDesktopNav && (
             <>
               <motion.button
                 type="button"
@@ -764,9 +784,9 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.22 }}
-                className="mx-4 mt-3 rounded-[1.8rem] border border-white/12 bg-[linear-gradient(135deg,rgba(24,33,30,0.9),rgba(43,59,55,0.84),rgba(23,31,29,0.92))] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.34)] backdrop-blur-2xl md:hidden"
+                className="mx-4 mt-3 rounded-[1.8rem] border border-white/12 bg-[rgba(36,43,40,0.92)] p-4 shadow-[0_20px_45px_rgba(0,0,0,0.32)] backdrop-blur-xl md:hidden"
               >
-                <div className="mb-4 flex items-center gap-3 rounded-[1.35rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] px-3 py-3">
+                <div className="mb-4 flex items-center gap-3 rounded-[1.35rem] border border-white/10 bg-white/5 px-3 py-3">
                   <img src={BRAND_LOGO} alt="Logo SRS" className="h-11 w-11 rounded-full object-cover ring-2 ring-white/90" />
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.26em] text-white/55">Menú</p>
@@ -847,7 +867,7 @@ export default function App() {
               <a
                 href="/sergio-rivero-salazar-cv.pdf"
                 download
-                className="inline-flex items-center gap-2 rounded-full border border-white/22 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.06))] px-7 py-3 font-semibold text-white shadow-[0_10px_28px_rgba(0,0,0,0.12)] backdrop-blur-md transition hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.24),rgba(255,255,255,0.08))]"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
               >
                 <Download size={18} />
                 Descargar CV
@@ -855,7 +875,7 @@ export default function App() {
 
               <a
                 href="#enfoque"
-                className="inline-flex items-center gap-2 rounded-full border border-white/22 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.06))] px-7 py-3 font-semibold text-white shadow-[0_10px_28px_rgba(0,0,0,0.12)] backdrop-blur-md transition hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.24),rgba(255,255,255,0.08))]"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
               >
                 <ChevronRight size={18} />
                 Ver enfoque
