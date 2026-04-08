@@ -50,6 +50,7 @@ import {
 
 import fondo from "./assets/arucas.jpg";
 import perfil from "./assets/sergio.jpeg";
+import aptyonLogo from "./assets/aptyon-logo.png";
 
 const surfaceCardClass =
   "rounded-[1.75rem] border border-[#d7e0d8] bg-[#fbfcfa]/95 p-6 shadow-[0_14px_34px_rgba(0,0,0,0.045)] backdrop-blur-sm";
@@ -425,6 +426,46 @@ const legalCopy = {
   },
 };
 
+
+const projectItems = [
+  {
+    id: "aptyon",
+    title: "Aptyon",
+    subtitle: "Aplicación de apoyo al estudio y práctica de tests",
+    status: "Proyecto en desarrollo",
+    meta: "Actualidad",
+    description:
+      "Proyecto propio con enfoque de producto, marca y utilidad real. Está pensado para opositores, universitarios y cualquier entorno donde el aprendizaje tipo test tenga valor.",
+    bullets: [
+      "Tres experiencias de uso: modo estudio, modo examen y modo juego",
+      "Aplicación en evolución con login, estructura escalable y lógica real de producto",
+      "Dominio propio, identidad visual y propuesta clara orientada a estudiantes",
+    ],
+    href: "https://www.aptyon.app/",
+    cta: "Ver proyecto",
+    image: "aptyon",
+    relevance: { frontend: 3, docencia: 3, administracion: 2 },
+  },
+  {
+    id: "portfolio-inicial",
+    title: "Portfolio inicial en HTML y CSS",
+    subtitle: "Primera versión publicada, útil para ver la evolución",
+    status: "Proyecto base",
+    meta: "Etapa inicial",
+    description:
+      "Fue mi primer portfolio publicado y muestra con claridad el punto de partida desde el que he ido creciendo en estructura, criterio visual y presentación profesional.",
+    bullets: [
+      "Construido en HTML y CSS como base inicial de presencia web",
+      "Ayuda a visualizar la evolución real entre una primera web y el portfolio actual",
+      "Refuerza una narrativa honesta: progreso, práctica y mejora continua",
+    ],
+    href: "https://sergioriverosalazar.github.io/CV.github.io/",
+    cta: "Ver versión inicial",
+    image: "legacy",
+    relevance: { frontend: 2, docencia: 1, administracion: 1 },
+  },
+];
+
 function SectionHeader({ eyebrow, title, text }) {
   return (
     <div className="mb-10 max-w-4xl">
@@ -569,6 +610,87 @@ function TimelineCard({ item, type = "default" }) {
   );
 }
 
+function ProjectCard({ item }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.35 }}
+      className="rounded-[2rem] border border-[#d7dfd8] bg-[#f8faf8]/95 p-6 shadow-[0_12px_30px_rgba(0,0,0,0.045)]"
+    >
+      <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+        <div>
+          <div className="flex flex-wrap gap-2 text-sm">
+            <TimelineBadge icon={Sparkles} text={item.status} color="emerald" />
+            <TimelineBadge icon={CalendarDays} text={item.meta} color="neutral" />
+          </div>
+
+          <h3 className="mt-5 text-[2.1rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-950">
+            {item.title}
+          </h3>
+          <p className="mt-2 text-[1.1rem] font-medium text-neutral-700">{item.subtitle}</p>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">{item.description}</p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 font-semibold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-neutral-50"
+            >
+              {item.cta}
+              <ChevronRight size={16} />
+            </a>
+            {item.image === "legacy" ? (
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#d7dfd8] bg-[#fbfcfa] px-5 py-3 text-sm font-medium text-neutral-600">
+                <Code2 size={15} /> HTML · CSS
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="grid gap-5">
+          <div className="rounded-[1.8rem] border border-[#dde5df] bg-[#fbfcfa] p-4 shadow-[0_10px_24px_rgba(0,0,0,0.035)]">
+            {item.image === "aptyon" ? (
+              <div className="flex min-h-[250px] items-center justify-center rounded-[1.45rem] border border-[#dde5df] bg-white p-6">
+                <img src={aptyonLogo} alt="Logotipo de Aptyon" className="h-auto w-full max-w-[220px] object-contain" />
+              </div>
+            ) : (
+              <div className="rounded-[1.45rem] border border-[#31415d]/10 bg-[linear-gradient(135deg,#263552,#2e4064)] p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                <div className="mb-5 flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/6 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">
+                    <FolderKanban size={13} /> Evolución
+                  </span>
+                  <span className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
+                    Primer proyecto
+                  </span>
+                </div>
+                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-sky-100/80">HTML · CSS</p>
+                <h4 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-tight tracking-[-0.035em] text-white">
+                  Del primer portfolio a una propuesta mucho más madura.
+                </h4>
+                <p className="mt-5 max-w-md text-base leading-8 text-white/75">
+                  Una referencia útil para mostrar progreso real en estructura, presentación visual y criterio profesional.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-3">
+            {item.bullets.map((point) => (
+              <div key={point} className="flex items-start gap-3 rounded-2xl border border-[#dfe6e0] bg-[#fbfcfb] p-4">
+                <CheckCircle2 size={18} className="mt-0.5 text-emerald-500" />
+                <span className="text-sm text-neutral-700">{point}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 function LegalPanelCard({ title, content, icon: Icon, accentClasses, expanded, onToggle }) {
   return (
     <div className={`rounded-[1.5rem] border bg-white/90 p-5 shadow-[0_10px_26px_rgba(0,0,0,0.035)] transition ${accentClasses}`}>
@@ -700,6 +822,10 @@ export default function App() {
     () => sortByProfile(languageItems, selectedProfile),
     [selectedProfile]
   );
+  const orderedProjects = useMemo(
+    () => sortByProfile(projectItems, selectedProfile),
+    [selectedProfile]
+  );
 
   const studiesIntro =
     selectedProfile === "administracion"
@@ -763,6 +889,21 @@ export default function App() {
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
   const shouldShowFloatingAvatar = !isHeroPhotoVisible;
 
+  const handleNavClick = (href) => (event) => {
+    const target = document.querySelector(href);
+    if (!target) {
+      setMobileMenuOpen(false);
+      return;
+    }
+
+    event.preventDefault();
+    const headerOffset = viewportWidth >= 1280 ? 112 : 96;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.history.replaceState(null, "", href);
+    window.scrollTo({ top, behavior: "smooth" });
+    setMobileMenuOpen(false);
+  };
+
   const mapsEmbedSrc = `https://www.google.com/maps/embed/v1/view?key=${MAPS_EMBED_KEY}&center=28.1186923,-15.52317&zoom=17&maptype=satellite`;
 
   return (
@@ -770,7 +911,7 @@ export default function App() {
       <header className="fixed left-0 top-0 z-50 w-full">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="mt-4 flex items-center justify-between rounded-full border border-white/15 bg-[linear-gradient(135deg,rgba(52,66,61,0.58),rgba(36,49,45,0.42))] px-4 py-3 backdrop-blur-xl shadow-[0_10px_34px_rgba(0,0,0,0.28)] md:px-5">
-            <a href="#inicio" className="flex min-w-0 items-center gap-3">
+            <a href="#inicio" onClick={handleNavClick("#inicio")} className="flex min-w-0 items-center gap-3">
               <img
                 src={BRAND_LOGO}
                 alt="Logo SRS"
@@ -786,7 +927,7 @@ export default function App() {
             {isDesktopNav ? (
               <nav className="hidden items-center gap-6 text-sm text-white/80 xl:flex">
                 {navItems.map((item) => (
-                  <a key={item.href} href={item.href} className="transition hover:text-white">
+                  <a key={item.href} href={item.href} onClick={handleNavClick(item.href)} className="transition hover:text-white">
                     {item.label}
                   </a>
                 ))}
@@ -837,7 +978,7 @@ export default function App() {
                     <a
                       key={item.href}
                       href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={handleNavClick(item.href)}
                       className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/88 transition hover:bg-white/10"
                     >
                       <span>{item.label}</span>
@@ -1301,6 +1442,30 @@ export default function App() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="proyectos"
+        className="relative border-t border-[#dfe6df] px-4 py-24 text-neutral-900 md:px-6"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(235,241,236,0.98) 0%, rgba(243,247,244,1) 100%)",
+          boxShadow: "rgba(255,255,255,0.35) 0px 1px 0px inset",
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader
+            eyebrow="Proyectos destacados"
+            title="Proyectos que muestran ejecución real y evolución visible."
+            text="Aquí no solo muestro formación o intención: también enseño producto, dominio propio y una evolución clara desde una primera base en HTML y CSS hasta propuestas más maduras y orientadas a usuario."
+          />
+
+          <div className="grid gap-8">
+            {orderedProjects.map((item) => (
+              <ProjectCard key={item.id} item={item} />
+            ))}
           </div>
         </div>
       </section>
