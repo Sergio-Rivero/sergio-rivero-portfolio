@@ -9,6 +9,7 @@ import {
   Download,
   Cookie,
   ShieldCheck,
+  ScrollText,
   MonitorSmartphone,
   GraduationCap,
   BriefcaseBusiness,
