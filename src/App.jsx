@@ -47,7 +47,7 @@ import {
 
 import fondo from "./assets/arucas.jpg";
 import perfil from "./assets/sergio.jpeg";
-import logo from "./assets/srs1.png";
+const logo = "/favicon-96x96.png";
 
 const surfaceCardClass =
   "rounded-[1.75rem] border border-[#d7e0d8] bg-[#fbfcfa]/95 p-6 shadow-[0_14px_34px_rgba(0,0,0,0.045)] backdrop-blur-sm";
