@@ -713,27 +713,52 @@ export default function App() {
         ? "En docencia se prioriza la formación formativa y digital, dejando visible también la base técnica que refuerza credibilidad y versatilidad."
         : "En administración se muestra primero la formación que refuerza gestión, documentación, análisis y orden operativo, sin perder la parte tecnológica que suma valor.";
 
-  const isDesktopNav = viewportWidth >= 1360;
+  const isDesktopNav = viewportWidth >= 1280;
   const brandLabel = isDesktopNav
     ? "Sergio Rivero Salazar"
     : viewportWidth < 390
-      ? ""
+      ? "Sergio Rivero"
       : viewportWidth < 520
-        ? "Sergio Rivero"
+        ? "Sergio Rivero Salazar"
         : "Sergio Rivero Salazar";
 
   const heroBackgroundPosition =
-    viewportWidth < 420
-      ? "18% center"
-      : viewportWidth < 640
-        ? "20% center"
-        : viewportWidth < 900
-          ? "22% center"
-          : viewportWidth < 1200
-            ? "18% center"
-            : viewportWidth < 1600
-              ? "20% center"
-              : "18% center";
+    viewportWidth < 380
+      ? "20% center"
+      : viewportWidth < 520
+        ? "18% center"
+        : viewportWidth < 768
+          ? "16% 42%"
+          : viewportWidth < 1024
+            ? "13% 42%"
+            : viewportWidth < 1280
+              ? "11% 42%"
+              : viewportWidth < 1500
+                ? "10% 44%"
+                : "9% 40%";
+
+  const heroUsesCompactEyebrow = viewportWidth >= 430;
+  const heroUsesSingleLineName = (viewportWidth >= 470 && viewportWidth < 768) || viewportWidth >= 1500;
+  const heroLayoutClass =
+    viewportWidth >= 1536
+      ? "md:grid-cols-[1.24fr_0.76fr]"
+      : viewportWidth >= 1280
+        ? "md:grid-cols-[1.16fr_0.84fr]"
+        : "md:grid-cols-[1.06fr_0.94fr]";
+  const heroContentLiftClass =
+    viewportWidth >= 1536
+      ? "2xl:-mt-10"
+      : viewportWidth >= 1280
+        ? "xl:-mt-6"
+        : "";
+  const heroPhotoLiftClass =
+    viewportWidth < 520
+      ? "-mt-8"
+      : viewportWidth < 768
+        ? "-mt-5"
+        : viewportWidth >= 1280
+          ? "md:-mt-6 xl:-mt-10"
+          : "md:-mt-2";
 
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
   const shouldShowFloatingAvatar = !isHeroPhotoVisible;
@@ -829,15 +854,19 @@ export default function App() {
       <section id="inicio" className="relative min-h-screen overflow-hidden scroll-mt-28">
         <div
           className="absolute inset-0 bg-cover"
-          style={{ backgroundImage: `url(${fondo})`, backgroundPosition: heroBackgroundPosition }}
+          style={{
+            backgroundImage: `url(${fondo})`,
+            backgroundPosition: heroBackgroundPosition,
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/22 via-black/12 to-black/72" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.08)_24%,rgba(0,0,0,0.10)_52%,rgba(0,0,0,0.22)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-black/72" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.42)_0%,rgba(0,0,0,0.24)_18%,rgba(0,0,0,0.10)_42%,rgba(0,0,0,0.12)_70%,rgba(0,0,0,0.30)_100%)]" />
 
-        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 pb-14 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6 xl:pt-24 2xl:pt-20">
-          <div className="max-w-4xl">
+        <div className={`relative z-10 mx-auto grid min-h-screen max-w-7xl items-start gap-6 px-4 pb-14 pt-28 sm:gap-8 sm:pt-32 md:items-center md:gap-12 md:px-6 ${heroLayoutClass}`}>
+          <div className={`max-w-4xl ${heroContentLiftClass}`}>
             <motion.p
-              className="mb-4 max-w-xl text-sm font-medium uppercase tracking-[0.33em] text-yellow-300/95 md:text-base"
+              className={`mb-4 text-[13px] font-medium uppercase tracking-[0.31em] text-yellow-300/95 sm:text-sm md:text-base ${heroUsesCompactEyebrow ? "max-w-none" : "max-w-[18ch] sm:max-w-[26ch]"}`}
+              style={{ textShadow: "0 2px 14px rgba(0,0,0,0.20)" }}
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
@@ -846,7 +875,7 @@ export default function App() {
             </motion.p>
 
             <motion.h1
-              className="max-w-4xl text-5xl font-extrabold leading-[0.94] tracking-[-0.04em] text-white sm:text-6xl md:text-7xl min-[1600px]:max-w-none min-[1600px]:whitespace-nowrap"
+              className={`font-extrabold leading-[0.94] tracking-[-0.045em] text-white drop-shadow-[0_8px_22px_rgba(0,0,0,0.22)] ${heroUsesSingleLineName ? "max-w-none whitespace-nowrap text-[clamp(3.4rem,8vw,5.6rem)]" : "max-w-[8.1ch] text-[clamp(3.3rem,10vw,5.9rem)] md:max-w-[8.2ch] md:text-[clamp(4.4rem,7vw,6.6rem)]"}`}
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -855,7 +884,8 @@ export default function App() {
             </motion.h1>
 
             <motion.p
-              className="mt-6 max-w-2xl text-lg leading-relaxed text-white/90 md:text-xl xl:max-w-[36rem]"
+              className="mt-5 max-w-[34rem] text-[1.05rem] leading-relaxed text-white/90 sm:max-w-[38rem] sm:text-[1.12rem] md:mt-6 md:max-w-[31rem] md:text-[1.12rem] xl:max-w-[38rem] 2xl:max-w-[46rem]"
+              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.18)" }}
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.8 }}
@@ -864,7 +894,7 @@ export default function App() {
             </motion.p>
 
             <motion.div
-              className="mt-8 flex flex-wrap gap-4 xl:mt-7"
+              className="mt-8 flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
@@ -911,7 +941,7 @@ export default function App() {
           </div>
 
           <motion.div
-            className="flex justify-center md:justify-end"
+            className={`flex justify-center md:justify-end ${heroPhotoLiftClass}`}
             initial={{ opacity: 0, scale: 0.96, y: 25 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.8 }}
@@ -921,7 +951,7 @@ export default function App() {
               <img
                 src={perfil}
                 alt="Foto de Sergio Rivero Salazar"
-                className="relative h-40 w-40 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-52 sm:w-52 md:h-72 md:w-72"
+                className="relative h-40 w-40 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-52 sm:w-52 md:h-72 md:w-72 xl:h-80 xl:w-80"
               />
             </div>
           </motion.div>
