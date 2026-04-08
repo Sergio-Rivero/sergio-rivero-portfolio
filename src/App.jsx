@@ -713,7 +713,7 @@ export default function App() {
         ? "En docencia se prioriza la formación formativa y digital, dejando visible también la base técnica que refuerza credibilidad y versatilidad."
         : "En administración se muestra primero la formación que refuerza gestión, documentación, análisis y orden operativo, sin perder la parte tecnológica que suma valor.";
 
-  const isDesktopNav = viewportWidth >= 1280;
+  const isDesktopNav = viewportWidth >= 1360;
   const brandLabel = isDesktopNav
     ? "Sergio Rivero Salazar"
     : viewportWidth < 390
@@ -721,6 +721,19 @@ export default function App() {
       : viewportWidth < 520
         ? "Sergio Rivero"
         : "Sergio Rivero Salazar";
+
+  const heroBackgroundPosition =
+    viewportWidth < 420
+      ? "18% center"
+      : viewportWidth < 640
+        ? "20% center"
+        : viewportWidth < 900
+          ? "22% center"
+          : viewportWidth < 1200
+            ? "18% center"
+            : viewportWidth < 1600
+              ? "20% center"
+              : "18% center";
 
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
   const shouldShowFloatingAvatar = !isHeroPhotoVisible;
@@ -815,13 +828,13 @@ export default function App() {
 
       <section id="inicio" className="relative min-h-screen overflow-hidden scroll-mt-28">
         <div
-          className="absolute inset-0 bg-cover bg-[position:12%_center] md:bg-[position:22%_center]"
-          style={{ backgroundImage: `url(${fondo})` }}
+          className="absolute inset-0 bg-cover"
+          style={{ backgroundImage: `url(${fondo})`, backgroundPosition: heroBackgroundPosition }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/22 via-black/12 to-black/72" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.08)_24%,rgba(0,0,0,0.10)_52%,rgba(0,0,0,0.22)_100%)]" />
 
-        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 pb-14 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6">
+        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 pb-14 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6 xl:pt-24 2xl:pt-20">
           <div className="max-w-4xl">
             <motion.p
               className="mb-4 max-w-xl text-sm font-medium uppercase tracking-[0.33em] text-yellow-300/95 md:text-base"
@@ -833,7 +846,7 @@ export default function App() {
             </motion.p>
 
             <motion.h1
-              className="max-w-4xl text-5xl font-extrabold leading-[0.94] tracking-[-0.04em] text-white sm:text-6xl md:text-7xl"
+              className="max-w-4xl text-5xl font-extrabold leading-[0.94] tracking-[-0.04em] text-white sm:text-6xl md:text-7xl min-[1600px]:max-w-none min-[1600px]:whitespace-nowrap"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -842,7 +855,7 @@ export default function App() {
             </motion.h1>
 
             <motion.p
-              className="mt-6 max-w-2xl text-lg leading-relaxed text-white/88 md:text-xl"
+              className="mt-6 max-w-2xl text-lg leading-relaxed text-white/90 md:text-xl xl:max-w-[36rem]"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.8 }}
@@ -851,7 +864,7 @@ export default function App() {
             </motion.p>
 
             <motion.div
-              className="mt-8 flex flex-wrap gap-4"
+              className="mt-8 flex flex-wrap gap-4 xl:mt-7"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
