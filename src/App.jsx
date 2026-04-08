@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Mail,
@@ -9,6 +9,7 @@ import {
   Download,
   Cookie,
   ShieldCheck,
+  ScrollText,
   MonitorSmartphone,
   GraduationCap,
   BriefcaseBusiness,
@@ -43,20 +44,31 @@ import {
   Leaf,
   Sun,
   Map,
-  ScrollText,
-  Layers3,
+  Menu,
+  X,
 } from "lucide-react";
 
 import fondo from "./assets/arucas.jpg";
 import perfil from "./assets/sergio.jpeg";
-import logo from "./assets/srs1.png";
-import aptyonLogo from "./assets/aptyon-logo.png";
 
 const surfaceCardClass =
   "rounded-[1.75rem] border border-[#d7e0d8] bg-[#fbfcfa]/95 p-6 shadow-[0_14px_34px_rgba(0,0,0,0.045)] backdrop-blur-sm";
 
 const lightCardClass =
   "rounded-[1.65rem] border border-[#d8e0d9] bg-[#fcfdfb]/95 p-5 shadow-[0_12px_26px_rgba(0,0,0,0.045)] transition duration-200 hover:-translate-y-1 hover:bg-white";
+
+const BRAND_LOGO = "/favicon-96x96.png";
+
+const navItems = [
+  { href: "#sobre", label: "Sobre mí" },
+  { href: "#enfoque", label: "Enfoque" },
+  { href: "#valores", label: "Raíces y valores" },
+  { href: "#experiencia", label: "Experiencia" },
+  { href: "#estudios", label: "Estudios" },
+  { href: "#formacion", label: "Formación" },
+  { href: "#proyectos", label: "Proyectos" },
+  { href: "#contacto", label: "Contacto" },
+];
 
 const profileConfig = {
   frontend: {
@@ -413,45 +425,6 @@ const legalCopy = {
   },
 };
 
-
-
-const projectItems = [
-  {
-    id: "aptyon",
-    title: "Aptyon",
-    subtitle: "Aplicación de apoyo al estudio y práctica de tests",
-    badge: "Proyecto en desarrollo",
-    badge2: "Actualidad",
-    href: "https://www.aptyon.app/",
-    image: aptyonLogo,
-    imageAlt: "Logotipo de Aptyon",
-    highlights: [
-      "Tres experiencias de uso: modo estudio, modo examen y modo juego",
-      "Aplicación en evolución con login, estructura escalable y lógica real de producto",
-      "Dominio propio, identidad visual y propuesta clara orientada a estudiantes",
-    ],
-    description:
-      "Proyecto propio con enfoque de producto, marca y utilidad real. Está pensado para opositores, universitarios y cualquier entorno donde el aprendizaje tipo test tenga valor.",
-    variant: "primary",
-  },
-  {
-    id: "portfolio-inicial",
-    title: "Portfolio inicial en HTML y CSS",
-    subtitle: "Primera versión publicada, útil para ver la evolución",
-    badge: "Proyecto base",
-    badge2: "Etapa inicial",
-    href: "https://sergioriverosalazar.github.io/CV.github.io/",
-    imageAlt: "Tarjeta visual del primer portfolio",
-    highlights: [
-      "Construido en HTML y CSS como base inicial de presencia web",
-      "Ayuda a visualizar la evolución real entre una primera web y el portfolio actual",
-      "Refuerza una narrativa honesta: progreso, práctica y mejora continua",
-    ],
-    description:
-      "Fue mi primer portfolio publicado y muestra con claridad el punto de partida desde el que he ido creciendo en estructura, criterio visual y presentación profesional.",
-    variant: "secondary",
-  },
-];
 function SectionHeader({ eyebrow, title, text }) {
   return (
     <div className="mb-10 max-w-4xl">
@@ -634,96 +607,6 @@ function LegalPanelCard({ title, content, icon: Icon, accentClasses, expanded, o
   );
 }
 
-
-function ProjectCard({ item }) {
-  const isPrimary = item.variant === "primary";
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.35 }}
-      className="rounded-[2rem] border border-[#d7dfd8] bg-[#f8faf8]/95 p-5 shadow-[0_14px_34px_rgba(0,0,0,0.045)] md:p-6"
-    >
-      <div className="grid gap-5 md:grid-cols-[1.02fr_0.98fr] md:items-start">
-        <div className="flex h-full flex-col">
-          <div className="flex flex-wrap gap-2">
-            <TimelineBadge icon={Sparkles} text={item.badge} color="emerald" />
-            <TimelineBadge icon={CalendarDays} text={item.badge2} color="neutral" />
-          </div>
-
-          <h3 className="mt-6 text-4xl font-semibold tracking-[-0.03em] text-neutral-900">{item.title}</h3>
-          <p className="mt-3 text-2xl leading-tight text-neutral-800">{item.subtitle}</p>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">{item.description}</p>
-
-          <div className="mt-auto pt-8">
-            <a
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-base font-semibold text-neutral-900 transition hover:scale-[1.01] hover:bg-neutral-50"
-            >
-              {item.id === "portfolio-inicial" ? "Ver versión inicial" : "Ver proyecto"}
-              <ChevronRight size={18} />
-            </a>
-          </div>
-        </div>
-
-        <div className="space-y-5">
-          <div className="rounded-[2rem] border border-[#dbe3dc] bg-[#fafcf9] p-4">
-            <div className="overflow-hidden rounded-[1.5rem] border border-[#dfe7e1] bg-white">
-              {isPrimary ? (
-                <div className="flex min-h-[260px] items-center justify-center bg-[radial-gradient(circle_at_top,#ffffff, #f8faf8_58%, #eff5f0)] p-8">
-                  <img
-                    src={item.image}
-                    alt={item.imageAlt}
-                    className="h-auto max-h-[260px] w-full max-w-[280px] object-contain"
-                  />
-                </div>
-              ) : (
-                <div className="min-h-[260px] rounded-[1.5rem] bg-[linear-gradient(135deg,#22314a_0%,#2f3d58_40%,#1e2c42_100%)] p-6 text-white">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/6 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/75">
-                      <Layers3 size={14} />
-                      Evolución
-                    </span>
-                    <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-200">
-                      Primer proyecto
-                    </span>
-                  </div>
-
-                  <div className="mt-8">
-                    <p className="text-sm font-semibold uppercase tracking-[0.34em] text-sky-200/90">HTML · CSS</p>
-                    <h4 className="mt-4 max-w-md text-5xl font-semibold leading-[1.02] tracking-[-0.04em]">
-                      Del primer portfolio a una propuesta mucho más madura.
-                    </h4>
-                    <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/78">
-                      Una referencia útil para mostrar progreso real en estructura, presentación visual y criterio profesional.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="grid gap-3">
-            {item.highlights.map((point) => (
-              <div
-                key={point}
-                className="flex items-start gap-3 rounded-2xl border border-[#dfe6e0] bg-[#fbfcfb] p-4"
-              >
-                <CheckCircle2 size={18} className="mt-0.5 text-emerald-500" />
-                <span className="text-base text-neutral-700">{point}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 function sortByProfile(items, profileId) {
   return [...items].sort((a, b) => (b.relevance?.[profileId] || 0) - (a.relevance?.[profileId] || 0));
 }
@@ -734,8 +617,10 @@ export default function App() {
   const [showCookieDetails, setShowCookieDetails] = useState(false);
   const [legalExpanded, setLegalExpanded] = useState(false);
   const [showContactTooltip, setShowContactTooltip] = useState(false);
-  const [showFloatingAvatar, setShowFloatingAvatar] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState("frontend");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isHeroPhotoVisible, setIsHeroPhotoVisible] = useState(false);
+  const heroPhotoRef = useRef(null);
 
   useEffect(() => {
     const accepted = localStorage.getItem("srs-cookie-consent");
@@ -743,10 +628,25 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setShowFloatingAvatar(window.scrollY > Math.min(window.innerHeight * 0.72, 520));
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const node = heroPhotoRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsHeroPhotoVisible(entry.isIntersecting),
+      { threshold: 0.35 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   const acceptCookies = () => {
@@ -798,6 +698,7 @@ export default function App() {
         : "En administración se muestra primero la formación que refuerza gestión, documentación, análisis y orden operativo, sin perder la parte tecnológica que suma valor.";
 
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
+  const shouldShowFloatingAvatar = !isHeroPhotoVisible;
 
   const mapsEmbedSrc = `https://www.google.com/maps/embed/v1/view?key=${MAPS_EMBED_KEY}&center=28.1186923,-15.52317&zoom=17&maptype=satellite`;
 
@@ -808,27 +709,79 @@ export default function App() {
           <div className="mt-4 flex items-center justify-between rounded-full border border-white/15 bg-[rgba(48,56,52,0.55)] px-4 py-3 backdrop-blur-xl shadow-[0_10px_34px_rgba(0,0,0,0.28)] md:px-5">
             <a href="#inicio" className="flex min-w-0 items-center gap-3">
               <img
-                src={logo}
+                src={BRAND_LOGO}
                 alt="Logo SRS"
-                className="h-10 w-10 rounded-full object-cover ring-1 ring-white/20"
+                className="h-10 w-10 rounded-full object-cover ring-2 ring-white/90"
               />
-              <span className="truncate text-xs font-semibold uppercase tracking-[0.22em] text-white/90 md:text-sm md:tracking-[0.25em]">
+              <span className="hidden truncate text-xs font-semibold uppercase tracking-[0.22em] text-white/90 md:block md:text-sm md:tracking-[0.25em]">
                 Sergio Rivero Salazar
               </span>
             </a>
 
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
-              <a href="#sobre" className="transition hover:text-white">Sobre mí</a>
-              <a href="#enfoque" className="transition hover:text-white">Enfoque</a>
-              <a href="#valores" className="transition hover:text-white">Raíces y valores</a>
-              <a href="#experiencia" className="transition hover:text-white">Experiencia</a>
-              <a href="#estudios" className="transition hover:text-white">Estudios</a>
-              <a href="#formacion" className="transition hover:text-white">Formación</a>
-              <a href="#proyectos" className="transition hover:text-white">Proyectos</a>
-              <a href="#contacto" className="transition hover:text-white">Contacto</a>
+              {navItems.map((item) => (
+                <a key={item.href} href={item.href} className="transition hover:text-white">
+                  {item.label}
+                </a>
+              ))}
             </nav>
+
+            <button
+              type="button"
+              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:bg-white/15 md:hidden"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <>
+              <motion.button
+                type="button"
+                aria-label="Cerrar menú"
+                className="fixed inset-0 bg-black/45 backdrop-blur-[2px] md:hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.22 }}
+                className="mx-4 mt-3 rounded-[1.8rem] border border-white/12 bg-[rgba(36,43,40,0.92)] p-4 shadow-[0_20px_45px_rgba(0,0,0,0.32)] backdrop-blur-xl md:hidden"
+              >
+                <div className="mb-4 flex items-center gap-3 rounded-[1.35rem] border border-white/10 bg-white/5 px-3 py-3">
+                  <img src={BRAND_LOGO} alt="Logo SRS" className="h-11 w-11 rounded-full object-cover ring-2 ring-white/90" />
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.26em] text-white/55">Menú</p>
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/90">Sergio Rivero Salazar</p>
+                  </div>
+                </div>
+
+                <nav className="grid gap-2">
+                  {navItems.map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/88 transition hover:bg-white/10"
+                    >
+                      <span>{item.label}</span>
+                      <ChevronRight size={16} className="text-white/55" />
+                    </a>
+                  ))}
+                </nav>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </header>
 
       <section id="inicio" className="relative min-h-screen overflow-hidden scroll-mt-28">
@@ -839,7 +792,7 @@ export default function App() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/22 via-black/12 to-black/72" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.08)_24%,rgba(0,0,0,0.10)_52%,rgba(0,0,0,0.22)_100%)]" />
 
-        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 pb-16 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6">
+        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 pb-14 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6">
           <div className="max-w-4xl">
             <motion.p
               className="mb-4 max-w-xl text-sm font-medium uppercase tracking-[0.33em] text-yellow-300/95 md:text-base"
@@ -921,17 +874,16 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.8 }}
           >
-            <div className="relative mt-4 md:mt-0">
+            <div ref={heroPhotoRef} className="relative mt-2 md:mt-0">
               <div className="absolute inset-0 scale-105 rounded-full bg-black/18 blur-2xl" />
               <img
                 src={perfil}
                 alt="Foto de Sergio Rivero Salazar"
-                className="relative h-52 w-52 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-60 sm:w-60 md:h-72 md:w-72"
+                className="relative h-40 w-40 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-52 sm:w-52 md:h-72 md:w-72"
               />
             </div>
           </motion.div>
         </div>
-
       </section>
 
       <section
@@ -1281,30 +1233,6 @@ export default function App() {
         </div>
       </section>
 
-
-      <section
-        id="proyectos"
-        className="relative border-t border-[#d2dcd4] px-4 py-24 text-neutral-900 md:px-6"
-        style={{
-          background: "linear-gradient(180deg, #eef3ef 0%, #f5f8f5 100%)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
-        }}
-      >
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader
-            eyebrow="Proyectos destacados"
-            title="Proyectos que muestran ejecución real y evolución visible."
-            text="Aquí no solo muestro formación o intención: también enseño producto, dominio propio y una evolución clara desde una primera base en HTML y CSS hasta propuestas más maduras y orientadas a usuario."
-          />
-
-          <div className="grid gap-8">
-            {projectItems.map((item) => (
-              <ProjectCard key={item.id} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section
         id="contacto"
         className="relative overflow-hidden border-t border-[#d6dfd8] px-4 py-24 md:px-6"
@@ -1476,7 +1404,6 @@ export default function App() {
             to { transform: rotate(360deg); }
           }
         `}</style>
-        {showFloatingAvatar && (
         <a
           href="https://wa.me/34687368578?text=Hola,%20he%20visto%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20contactar%20contigo"
           target="_blank"
@@ -1484,7 +1411,7 @@ export default function App() {
           aria-label="Contactar por WhatsApp"
           onMouseEnter={() => setShowContactTooltip(true)}
           onMouseLeave={() => setShowContactTooltip(false)}
-          className="fixed bottom-5 right-5 z-50 block md:bottom-6 md:right-6"
+          className={`fixed bottom-5 right-5 z-50 transition duration-200 md:bottom-6 md:right-6 ${shouldShowFloatingAvatar ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
         >
           <div className="relative">
             <AnimatePresence>
@@ -1519,7 +1446,6 @@ export default function App() {
             </div>
           </div>
         </a>
-        )}
       </>
 
       {showCookies && (
