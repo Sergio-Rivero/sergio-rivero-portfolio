@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Mail,
@@ -51,25 +51,13 @@ import {
 import fondo from "./assets/arucas.jpg";
 import perfil from "./assets/sergio.jpeg";
 import aptyonLogo from "./assets/aptyon-logo.png";
+const BRAND_LOGO = "/favicon-96x96.png";
 
 const surfaceCardClass =
   "rounded-[1.75rem] border border-[#d7e0d8] bg-[#fbfcfa]/95 p-6 shadow-[0_14px_34px_rgba(0,0,0,0.045)] backdrop-blur-sm";
 
 const lightCardClass =
   "rounded-[1.65rem] border border-[#d8e0d9] bg-[#fcfdfb]/95 p-5 shadow-[0_12px_26px_rgba(0,0,0,0.045)] transition duration-200 hover:-translate-y-1 hover:bg-white";
-
-const BRAND_LOGO = "/favicon-96x96.png";
-
-const navItems = [
-  { href: "#sobre", label: "Sobre mí" },
-  { href: "#enfoque", label: "Enfoque" },
-  { href: "#valores", label: "Raíces y valores" },
-  { href: "#experiencia", label: "Experiencia" },
-  { href: "#estudios", label: "Estudios" },
-  { href: "#formacion", label: "Formación" },
-  { href: "#proyectos", label: "Proyectos" },
-  { href: "#contacto", label: "Contacto" },
-];
 
 const profileConfig = {
   frontend: {
@@ -426,14 +414,24 @@ const legalCopy = {
   },
 };
 
+const navItems = [
+  { href: "#sobre", label: "Sobre mí" },
+  { href: "#enfoque", label: "Enfoque" },
+  { href: "#valores", label: "Raíces y valores" },
+  { href: "#experiencia", label: "Experiencia" },
+  { href: "#estudios", label: "Estudios" },
+  { href: "#formacion", label: "Formación" },
+  { href: "#proyectos", label: "Proyectos" },
+  { href: "#contacto", label: "Contacto" },
+];
 
 const projectItems = [
   {
     id: "aptyon",
+    badge: "Proyecto en desarrollo",
+    secondaryBadge: "Actualidad",
     title: "Aptyon",
     subtitle: "Aplicación de apoyo al estudio y práctica de tests",
-    status: "Proyecto en desarrollo",
-    meta: "Actualidad",
     description:
       "Proyecto propio con enfoque de producto, marca y utilidad real. Está pensado para opositores, universitarios y cualquier entorno donde el aprendizaje tipo test tenga valor.",
     bullets: [
@@ -441,17 +439,17 @@ const projectItems = [
       "Aplicación en evolución con login, estructura escalable y lógica real de producto",
       "Dominio propio, identidad visual y propuesta clara orientada a estudiantes",
     ],
-    href: "https://www.aptyon.app/",
-    cta: "Ver proyecto",
-    image: "aptyon",
-    relevance: { frontend: 3, docencia: 3, administracion: 2 },
+    image: aptyonLogo,
+    imageAlt: "Logo de Aptyon",
+    link: "https://www.aptyon.app/",
+    linkLabel: "Ver proyecto",
   },
   {
     id: "portfolio-inicial",
+    badge: "Proyecto base",
+    secondaryBadge: "Etapa inicial",
     title: "Portfolio inicial en HTML y CSS",
     subtitle: "Primera versión publicada, útil para ver la evolución",
-    status: "Proyecto base",
-    meta: "Etapa inicial",
     description:
       "Fue mi primer portfolio publicado y muestra con claridad el punto de partida desde el que he ido creciendo en estructura, criterio visual y presentación profesional.",
     bullets: [
@@ -459,10 +457,10 @@ const projectItems = [
       "Ayuda a visualizar la evolución real entre una primera web y el portfolio actual",
       "Refuerza una narrativa honesta: progreso, práctica y mejora continua",
     ],
-    href: "https://sergioriverosalazar.github.io/CV.github.io/",
-    cta: "Ver versión inicial",
-    image: "legacy",
-    relevance: { frontend: 2, docencia: 1, administracion: 1 },
+    image: "/preview.jpg",
+    imageAlt: "Vista del portfolio inicial",
+    link: "https://sergioriverosalazar.github.io/CV.github.io/",
+    linkLabel: "Ver versión inicial",
   },
 ];
 
@@ -610,87 +608,6 @@ function TimelineCard({ item, type = "default" }) {
   );
 }
 
-function ProjectCard({ item }) {
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.35 }}
-      className="rounded-[2rem] border border-[#d7dfd8] bg-[#f8faf8]/95 p-6 shadow-[0_12px_30px_rgba(0,0,0,0.045)]"
-    >
-      <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
-        <div>
-          <div className="flex flex-wrap gap-2 text-sm">
-            <TimelineBadge icon={Sparkles} text={item.status} color="emerald" />
-            <TimelineBadge icon={CalendarDays} text={item.meta} color="neutral" />
-          </div>
-
-          <h3 className="mt-5 text-[2.1rem] font-semibold leading-tight tracking-[-0.03em] text-neutral-950">
-            {item.title}
-          </h3>
-          <p className="mt-2 text-[1.1rem] font-medium text-neutral-700">{item.subtitle}</p>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">{item.description}</p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 font-semibold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-neutral-50"
-            >
-              {item.cta}
-              <ChevronRight size={16} />
-            </a>
-            {item.image === "legacy" ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#d7dfd8] bg-[#fbfcfa] px-5 py-3 text-sm font-medium text-neutral-600">
-                <Code2 size={15} /> HTML · CSS
-              </span>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="grid gap-5">
-          <div className="rounded-[1.8rem] border border-[#dde5df] bg-[#fbfcfa] p-4 shadow-[0_10px_24px_rgba(0,0,0,0.035)]">
-            {item.image === "aptyon" ? (
-              <div className="flex min-h-[250px] items-center justify-center rounded-[1.45rem] border border-[#dde5df] bg-white p-6">
-                <img src={aptyonLogo} alt="Logotipo de Aptyon" className="h-auto w-full max-w-[220px] object-contain" />
-              </div>
-            ) : (
-              <div className="rounded-[1.45rem] border border-[#31415d]/10 bg-[linear-gradient(135deg,#263552,#2e4064)] p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                <div className="mb-5 flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/6 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">
-                    <FolderKanban size={13} /> Evolución
-                  </span>
-                  <span className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
-                    Primer proyecto
-                  </span>
-                </div>
-                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-sky-100/80">HTML · CSS</p>
-                <h4 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-tight tracking-[-0.035em] text-white">
-                  Del primer portfolio a una propuesta mucho más madura.
-                </h4>
-                <p className="mt-5 max-w-md text-base leading-8 text-white/75">
-                  Una referencia útil para mostrar progreso real en estructura, presentación visual y criterio profesional.
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="grid gap-3">
-            {item.bullets.map((point) => (
-              <div key={point} className="flex items-start gap-3 rounded-2xl border border-[#dfe6e0] bg-[#fbfcfb] p-4">
-                <CheckCircle2 size={18} className="mt-0.5 text-emerald-500" />
-                <span className="text-sm text-neutral-700">{point}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
 function LegalPanelCard({ title, content, icon: Icon, accentClasses, expanded, onToggle }) {
   return (
     <div className={`rounded-[1.5rem] border bg-white/90 p-5 shadow-[0_10px_26px_rgba(0,0,0,0.035)] transition ${accentClasses}`}>
@@ -740,12 +657,7 @@ export default function App() {
   const [legalExpanded, setLegalExpanded] = useState(false);
   const [showContactTooltip, setShowContactTooltip] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState("frontend");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHeroPhotoVisible, setIsHeroPhotoVisible] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth : 1440
-  );
-  const heroPhotoRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const accepted = localStorage.getItem("srs-cookie-consent");
@@ -753,38 +665,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const onResize = () => setViewportWidth(window.innerWidth);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false);
     };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    if (viewportWidth >= 1280) setMobileMenuOpen(false);
-  }, [viewportWidth]);
-
-  useEffect(() => {
-    const node = heroPhotoRef.current;
-    if (!node || typeof IntersectionObserver === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsHeroPhotoVisible(entry.isIntersecting),
-      { threshold: 0.35 }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const acceptCookies = () => {
@@ -822,10 +707,6 @@ export default function App() {
     () => sortByProfile(languageItems, selectedProfile),
     [selectedProfile]
   );
-  const orderedProjects = useMemo(
-    () => sortByProfile(projectItems, selectedProfile),
-    [selectedProfile]
-  );
 
   const studiesIntro =
     selectedProfile === "administracion"
@@ -839,175 +720,90 @@ export default function App() {
         ? "En docencia se prioriza la formación formativa y digital, dejando visible también la base técnica que refuerza credibilidad y versatilidad."
         : "En administración se muestra primero la formación que refuerza gestión, documentación, análisis y orden operativo, sin perder la parte tecnológica que suma valor.";
 
-  const isDesktopNav = viewportWidth >= 1280;
-  const brandLabel = isDesktopNav
-    ? "Sergio Rivero Salazar"
-    : viewportWidth < 390
-      ? "Sergio Rivero"
-      : viewportWidth < 520
-        ? "Sergio Rivero Salazar"
-        : "Sergio Rivero Salazar";
-
-  const heroBackgroundPosition =
-    viewportWidth < 380
-      ? "20% center"
-      : viewportWidth < 520
-        ? "18% center"
-        : viewportWidth < 768
-          ? "16% 42%"
-          : viewportWidth < 1024
-            ? "13% 42%"
-            : viewportWidth < 1280
-              ? "11% 42%"
-              : viewportWidth < 1500
-                ? "10% 44%"
-                : "9% 40%";
-
-  const heroUsesCompactEyebrow = viewportWidth >= 430;
-  const heroUsesSingleLineName = (viewportWidth >= 470 && viewportWidth < 768) || viewportWidth >= 1500;
-  const heroLayoutClass =
-    viewportWidth >= 1536
-      ? "md:grid-cols-[1.24fr_0.76fr]"
-      : viewportWidth >= 1280
-        ? "md:grid-cols-[1.16fr_0.84fr]"
-        : "md:grid-cols-[1.06fr_0.94fr]";
-  const heroContentLiftClass =
-    viewportWidth >= 1536
-      ? "2xl:-mt-10"
-      : viewportWidth >= 1280
-        ? "xl:-mt-6"
-        : "";
-  const heroPhotoLiftClass =
-    viewportWidth < 520
-      ? "-mt-8"
-      : viewportWidth < 768
-        ? "-mt-5"
-        : viewportWidth >= 1280
-          ? "md:-mt-6 xl:-mt-10"
-          : "md:-mt-2";
-
   const hasMapsKey = Boolean(MAPS_EMBED_KEY);
-  const shouldShowFloatingAvatar = !isHeroPhotoVisible;
 
-  const handleNavClick = (href) => (event) => {
-    const target = document.querySelector(href);
-    if (!target) {
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    event.preventDefault();
-    const headerOffset = viewportWidth >= 1280 ? 112 : 96;
-    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-    window.history.replaceState(null, "", href);
-    window.scrollTo({ top, behavior: "smooth" });
-    setMobileMenuOpen(false);
-  };
-
-  const mapsEmbedSrc = `https://www.google.com/maps/embed/v1/view?key=${MAPS_EMBED_KEY}&center=28.1186923,-15.52317&zoom=17&maptype=satellite`;
+  const mapsEmbedSrc = `https://www.google.com/maps/embed/v1/place?key=${MAPS_EMBED_KEY}&q=${encodeURIComponent(
+    "Parroquia de San Juan Bautista de Arucas, Arucas, Gran Canaria"
+  )}&zoom=15`;
 
   return (
     <div className="bg-[#07100c] text-white">
       <header className="fixed left-0 top-0 z-50 w-full">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
-          <div className="mt-4 flex items-center justify-between rounded-full border border-white/15 bg-[linear-gradient(135deg,rgba(52,66,61,0.58),rgba(36,49,45,0.42))] px-4 py-3 backdrop-blur-xl shadow-[0_10px_34px_rgba(0,0,0,0.28)] md:px-5">
-            <a href="#inicio" onClick={handleNavClick("#inicio")} className="flex min-w-0 items-center gap-3">
+          <div className="mt-4 flex items-center justify-between rounded-full border border-white/15 bg-[rgba(48,56,52,0.55)] px-4 py-3 backdrop-blur-xl shadow-[0_10px_34px_rgba(0,0,0,0.28)] md:px-5">
+            <a href="#inicio" className="flex min-w-0 items-center gap-3">
               <img
                 src={BRAND_LOGO}
                 alt="Logo SRS"
-                className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/90"
+                className="h-10 w-10 rounded-full object-cover ring-1 ring-white/20"
               />
-              {brandLabel ? (
-                <span className="min-w-0 truncate whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 sm:text-xs md:text-sm md:tracking-[0.25em]">
-                  {brandLabel}
-                </span>
-              ) : null}
+              <span className="truncate text-xs font-semibold uppercase tracking-[0.22em] text-white/90 sm:hidden">
+                Sergio Rivero
+              </span>
+              <span className="hidden truncate text-xs font-semibold uppercase tracking-[0.22em] text-white/90 sm:block lg:text-sm lg:tracking-[0.25em]">
+                Sergio Rivero Salazar
+              </span>
             </a>
 
-            {isDesktopNav ? (
-              <nav className="hidden items-center gap-6 text-sm text-white/80 xl:flex">
-                {navItems.map((item) => (
-                  <a key={item.href} href={item.href} onClick={handleNavClick(item.href)} className="transition hover:text-white">
-                    {item.label}
-                  </a>
-                ))}
-              </nav>
-            ) : (
-              <button
-                type="button"
-                aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-                aria-expanded={mobileMenuOpen}
-                onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:bg-white/15"
-              >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            )}
+            <nav className="hidden items-center gap-5 text-sm text-white/80 lg:flex xl:gap-6">
+              {navItems.map((item) => (
+                <a key={item.href} href={item.href} className="transition hover:text-white">
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/15 lg:hidden"
+              aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
-        </div>
 
-        <AnimatePresence>
-          {mobileMenuOpen && !isDesktopNav && (
-            <>
-              <motion.button
-                type="button"
-                aria-label="Cerrar menú"
-                className="fixed inset-0 bg-black/45 backdrop-blur-[2px] md:hidden"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setMobileMenuOpen(false)}
-              />
+          <AnimatePresence>
+            {menuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: -18 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.22 }}
-                className="mx-4 mt-3 rounded-[1.8rem] border border-white/12 bg-[rgba(36,43,40,0.92)] p-4 shadow-[0_20px_45px_rgba(0,0,0,0.32)] backdrop-blur-xl md:hidden"
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="mt-3 overflow-hidden rounded-[1.8rem] border border-white/15 bg-[rgba(26,34,31,0.92)] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl lg:hidden"
               >
-                <div className="mb-4 flex items-center gap-3 rounded-[1.35rem] border border-white/10 bg-white/5 px-3 py-3">
-                  <img src={BRAND_LOGO} alt="Logo SRS" className="h-11 w-11 rounded-full object-cover ring-2 ring-white/90" />
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.26em] text-white/55">Menú</p>
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/90">Sergio Rivero Salazar</p>
-                  </div>
-                </div>
-
-                <nav className="grid gap-2">
+                <div className="grid gap-2">
                   {navItems.map((item) => (
                     <a
                       key={item.href}
                       href={item.href}
-                      onClick={handleNavClick(item.href)}
-                      className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/88 transition hover:bg-white/10"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm font-medium text-white/90 transition hover:bg-white/10"
                     >
                       <span>{item.label}</span>
-                      <ChevronRight size={16} className="text-white/55" />
+                      <ChevronRight size={16} className="text-white/60" />
                     </a>
                   ))}
-                </nav>
+                </div>
               </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </div>
       </header>
 
       <section id="inicio" className="relative min-h-screen overflow-hidden scroll-mt-28">
         <div
-          className="absolute inset-0 bg-cover"
-          style={{
-            backgroundImage: `url(${fondo})`,
-            backgroundPosition: heroBackgroundPosition,
-          }}
+          className="absolute inset-0 bg-cover bg-[position:12%_center] md:bg-[position:22%_center]"
+          style={{ backgroundImage: `url(${fondo})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-black/72" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.42)_0%,rgba(0,0,0,0.24)_18%,rgba(0,0,0,0.10)_42%,rgba(0,0,0,0.12)_70%,rgba(0,0,0,0.30)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/22 via-black/12 to-black/72" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.08)_24%,rgba(0,0,0,0.10)_52%,rgba(0,0,0,0.22)_100%)]" />
 
-        <div className={`relative z-10 mx-auto grid min-h-screen max-w-7xl items-start gap-6 px-4 pb-14 pt-28 sm:gap-8 sm:pt-32 md:items-center md:gap-12 md:px-6 ${heroLayoutClass}`}>
-          <div className={`max-w-4xl ${heroContentLiftClass}`}>
+        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 pb-16 pt-28 md:grid-cols-[1.02fr_0.98fr] md:gap-12 md:px-6">
+          <div className="max-w-4xl">
             <motion.p
-              className={`mb-4 text-[13px] font-medium uppercase tracking-[0.31em] text-yellow-300/95 sm:text-sm md:text-base ${heroUsesCompactEyebrow ? "max-w-none" : "max-w-[18ch] sm:max-w-[26ch]"}`}
-              style={{ textShadow: "0 2px 14px rgba(0,0,0,0.20)" }}
+              className="mb-4 max-w-xl text-sm font-medium uppercase tracking-[0.33em] text-yellow-300/95 md:text-base"
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
@@ -1016,7 +812,7 @@ export default function App() {
             </motion.p>
 
             <motion.h1
-              className={`font-extrabold leading-[0.94] tracking-[-0.045em] text-white drop-shadow-[0_8px_22px_rgba(0,0,0,0.22)] ${heroUsesSingleLineName ? "max-w-none whitespace-nowrap text-[clamp(3.4rem,8vw,5.6rem)]" : "max-w-[8.1ch] text-[clamp(3.3rem,10vw,5.9rem)] md:max-w-[8.2ch] md:text-[clamp(4.4rem,7vw,6.6rem)]"}`}
+              className="max-w-4xl text-5xl font-extrabold leading-[0.94] tracking-[-0.04em] text-white sm:text-6xl md:text-7xl"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -1025,8 +821,7 @@ export default function App() {
             </motion.h1>
 
             <motion.p
-              className="mt-5 max-w-[34rem] text-[1.05rem] leading-relaxed text-white/90 sm:max-w-[38rem] sm:text-[1.12rem] md:mt-6 md:max-w-[31rem] md:text-[1.12rem] xl:max-w-[38rem] 2xl:max-w-[46rem]"
-              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.18)" }}
+              className="mt-6 max-w-2xl text-lg leading-relaxed text-white/88 md:text-xl"
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.8 }}
@@ -1082,17 +877,17 @@ export default function App() {
           </div>
 
           <motion.div
-            className={`flex justify-center md:justify-end ${heroPhotoLiftClass}`}
+            className="flex justify-center md:justify-end"
             initial={{ opacity: 0, scale: 0.96, y: 25 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.8 }}
           >
-            <div ref={heroPhotoRef} className="relative mt-2 md:mt-0">
+            <div className="relative mt-4 md:mt-0">
               <div className="absolute inset-0 scale-105 rounded-full bg-black/18 blur-2xl" />
               <img
                 src={perfil}
                 alt="Foto de Sergio Rivero Salazar"
-                className="relative h-40 w-40 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-52 sm:w-52 md:h-72 md:w-72 xl:h-80 xl:w-80"
+                className="relative h-52 w-52 rounded-full border-2 border-white/85 object-cover shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:h-60 sm:w-60 md:h-72 md:w-72"
               />
             </div>
           </motion.div>
@@ -1448,14 +1243,13 @@ export default function App() {
 
       <section
         id="proyectos"
-        className="relative border-t border-[#dfe6df] px-4 py-24 text-neutral-900 md:px-6"
+        className="relative border-t border-[#dbe4dc] px-4 py-24 text-neutral-900 md:px-6"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(235,241,236,0.98) 0%, rgba(243,247,244,1) 100%)",
-          boxShadow: "rgba(255,255,255,0.35) 0px 1px 0px inset",
+          background: "linear-gradient(180deg, #e7efe8 0%, #f1f5f1 100%)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
         }}
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-6xl">
           <SectionHeader
             eyebrow="Proyectos destacados"
             title="Proyectos que muestran ejecución real y evolución visible."
@@ -1463,8 +1257,86 @@ export default function App() {
           />
 
           <div className="grid gap-8">
-            {orderedProjects.map((item) => (
-              <ProjectCard key={item.id} item={item} />
+            {projectItems.map((project) => (
+              <motion.article
+                key={project.id}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.35 }}
+                className="rounded-[2rem] border border-[#d7dfd8] bg-[#f8faf8]/95 p-6 shadow-[0_14px_34px_rgba(0,0,0,0.045)] md:p-8"
+              >
+                <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                  <div>
+                    <div className="flex flex-wrap gap-3">
+                      <TimelineBadge icon={Sparkles} text={project.badge} color="emerald" />
+                      <TimelineBadge icon={CalendarDays} text={project.secondaryBadge} color="neutral" />
+                    </div>
+
+                    <h3 className="mt-5 text-4xl font-semibold tracking-[-0.03em] text-neutral-950">
+                      {project.title}
+                    </h3>
+                    <p className="mt-3 text-xl font-medium leading-relaxed text-neutral-700">
+                      {project.subtitle}
+                    </p>
+                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">
+                      {project.description}
+                    </p>
+
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition hover:scale-[1.01] hover:bg-neutral-50"
+                      >
+                        {project.linkLabel}
+                        <ChevronRight size={16} />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4">
+                    <div className="overflow-hidden rounded-[1.75rem] border border-[#dde5df] bg-white p-4 shadow-[0_10px_26px_rgba(0,0,0,0.04)]">
+                      <div className="flex min-h-[250px] items-center justify-center rounded-[1.35rem] border border-[#e4ebe5] bg-[#f6f8f6] p-6">
+                        {project.id === "portfolio-inicial" ? (
+                          <div className="w-full max-w-[420px] rounded-[1.6rem] border border-white/8 bg-[linear-gradient(135deg,#24344d_0%,#1f2f48_55%,#16253c_100%)] px-6 py-8 text-white shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+                            <div className="mb-5 flex items-center justify-between gap-4">
+                              <span className="rounded-full border border-white/18 bg-white/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white/75">
+                                Evolución
+                              </span>
+                              <span className="rounded-full border border-emerald-300/20 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-200">
+                                Primer proyecto
+                              </span>
+                            </div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-sky-100/80">HTML · CSS</p>
+                            <h4 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.03em]">
+                              Del primer portfolio a una propuesta mucho más madura.
+                            </h4>
+                            <p className="mt-4 text-sm leading-7 text-white/78">
+                              Una referencia útil para mostrar progreso real en estructura, presentación visual y criterio profesional.
+                            </p>
+                          </div>
+                        ) : (
+                          <img src={project.image} alt={project.imageAlt} className="max-h-[220px] w-auto object-contain" />
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3">
+                      {project.bullets.map((bullet) => (
+                        <div
+                          key={bullet}
+                          className="flex items-start gap-3 rounded-2xl border border-[#dfe6e0] bg-[#fbfcfb] p-4"
+                        >
+                          <CheckCircle2 size={18} className="mt-0.5 text-emerald-500" />
+                          <span className="text-sm text-neutral-700">{bullet}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -1648,7 +1520,7 @@ export default function App() {
           aria-label="Contactar por WhatsApp"
           onMouseEnter={() => setShowContactTooltip(true)}
           onMouseLeave={() => setShowContactTooltip(false)}
-          className={`fixed bottom-5 right-5 z-50 transition duration-200 md:bottom-6 md:right-6 ${shouldShowFloatingAvatar ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+          className="fixed bottom-5 right-5 z-50 block md:bottom-6 md:right-6"
         >
           <div className="relative">
             <AnimatePresence>
